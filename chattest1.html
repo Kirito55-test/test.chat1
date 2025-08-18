@@ -100,10 +100,10 @@ body, html {
     background: #222222;
     color: #ffffff;
     font-size: 14px;
-    padding: 10px 24px;
+    padding: 16px 24px;
     border-radius: 4px 24px 4px 24px;
     display: inline-block;
-    min-width: 180px;
+    min-width: 100px;
     box-sizing: border-box;
     overflow-wrap: break-word;
     position: relative;
@@ -446,6 +446,8 @@ body, html {
             } else if (badgeSrcs.some(src => src.includes('moderator'))) {
                 roleClass = 'moderator';
             } else if (badgeSrcs.some(src => src.includes('subscriber') || src.includes('member'))) {
+                roleClass = 'member';
+            } else if (badgeSrcs.some(src => src.includes('gifter') || src.includes('member'))) {
                 roleClass = 'member';
             }
         }
