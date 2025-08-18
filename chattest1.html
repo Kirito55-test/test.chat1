@@ -90,6 +90,9 @@ body, html {
     left: 20px;
     z-index: 3;
     background-color: #222222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .message {
@@ -412,7 +415,7 @@ body, html {
             console.log("Event diabaikan (kemungkinan join/like):", data); // Untuk debugging
             return;
         }
-        
+
         // 'data' adalah objek yang dikirim oleh SSN
         if (!data.chatname && !data.chatmessage && !data.hasDonation && !data.membership) {
             return;
