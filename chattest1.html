@@ -150,7 +150,7 @@ body, html {
 }
 .chat-message.owner .ornament-extra-1 {
     background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
-    width: 28px; height: 20px; top: 0; left: -22px; z-index: 4;
+    width: 28px; height: 20px; top: 0; left: -8px; z-index: 4;
     transform: rotate(-90deg);
     animation: sway-tilt-neg-90 1s ease-in-out infinite alternate;
 }
@@ -206,7 +206,7 @@ body, html {
 }
 .chat-message.member .ornament-extra-1 {
   background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
-  width: 28px; height: 20px; top: 0; left: -22px; z-index: 4;
+  width: 28px; height: 20px; top: 0; left: -8px; z-index: 4;
   transform: rotate(-90deg);
   animation: sway-tilt-neg-90 1s ease-in-out infinite alternate;
 }
@@ -443,17 +443,29 @@ body, html {
         // 2. Tentukan peran pengguna dari lencana (badges)
         if (data.chatbadges) {
             const badgeSrcs = data.chatbadges.map(badge => (badge.src || badge).toLowerCase());
+            
+            // Prioritas peran
             if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
                 roleClass = 'owner';
             } else if (badgeSrcs.some(src => src.includes('moderator'))) {
                 roleClass = 'moderator';
-            } else if (badgeSrcs.some(src => src.includes('subscriber') || src.includes('member'))) {
-                roleClass = 'member';
-            } else if (badgeSrcs.some(src => src.includes('gifter') || src.includes('member'))) {
-                roleClass = 'member';
-            } else if (badgeSrcs.some(src => src.includes('fans_badge') || src.includes('memer'))) {
+            } 
+            // Prioritaskan Gifter jika Anda ingin gaya khusus untuk mereka
+            else if (badgeSrcs.some(src => src.includes('gifter'))) {
+                roleClass = 'member'; // Atau 'member'
+            } 
+            // 1. Cek khusus untuk "Fans Club" (yang memiliki ikon) agar jadi MEMBER
+            else if (badgeSrcs.some(src => src.includes('fans_badge_icon') && !src.includes('grey'))) {
                 roleClass = 'member';
             }
+            // 2. Cek untuk fans_badge lain agar jadi OWNER
+            else if (badgeSrcs.some(src => src.includes('fans_badge') && !src.includes('grey'))) {
+                roleClass = 'owner';
+            }
+            // 3. Cek untuk subscriber/member biasa
+            else if (badgeSrcs.some(src => src.includes('subscriber') || src.includes('member'))) {
+                roleClass = 'member';
+            } 
         }
 
         // 3. Kirim pesan biasa ke antrian Anda
