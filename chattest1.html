@@ -110,10 +110,18 @@ body, html {
     left: 10px;
 }
 
-.message img.emoji {
-    width: 0.9em; /* Dibuat 90% dari tinggi font agar sejajar sempurna dengan teks */
-    height: 0.9em;
-    vertical-align: middle;
+.message .emoji,
+.message .regular-emote {
+    /* Atur ukuran yang diinginkan, 28px adalah ukuran yang baik */
+    width: 28px !important;
+    height: 28px !important;
+
+    /* Pastikan gambar sejajar dengan teks */
+    vertical-align: middle !important;
+    
+    /* Perbaikan visual minor */
+    display: inline-block !important;
+    margin: -4px 2px 0 2px !important;
 }
 
 /* 5. Gaya Berdasarkan Peran (Owner, Moderator, dll.) */
@@ -157,9 +165,6 @@ body, html {
     background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20green%20shad.svg');
     width: 26px; height: 26px; bottom: 12px; left: -13px; z-index: 5;
 }
-
-/* ... (Salin sisa gaya untuk Moderator, Member, Regular di sini) ... */
-/* Gaya untuk Moderator, Member, dan Regular sudah cocok dan bisa langsung digunakan */
 
 /* Moderator */
 .chat-message.moderator .message {
@@ -211,7 +216,7 @@ body, html {
 }
 .chat-message.member .ornament-extra-2 {
   background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20black%20shad.svg');
-  width: 24px; height: 24px; bottom: 13px; left: -12px; z-index: 5;
+  width: 24px; height: 24px; bottom: 14px; left: -12px; z-index: 5;
 }
 
 /* Regular */
