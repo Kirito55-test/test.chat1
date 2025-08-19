@@ -410,16 +410,20 @@ body, html {
 
     // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
-        console.log("Data diterima:", JSON.stringify(data, null, 2));
-        // ---- FILTER "PINTAR" (Tetap dipertahankan) ----
-        const isSpecialRole = (data.isModerator || data.isOwner) || (data.chatbadges && data.chatbadges.some(badge => {
-            const source = badge.src || badge;
-            if (typeof source !== 'string') return false;
-            const src = source.toLowerCase();
-            return src.includes('owner') || src.includes('moderator') || src.includes('gifter') || src.includes('fans_badge');
-        }));
+        // Selalu cetak data mentah untuk debugging yang mudah
+        console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
 
-        if (!data.chatmessage && !data.hasDonation && !data.membership && !isSpecialRole) {
+        // ---- FILTER "PINTAR" ----
+        // Cek dulu apakah pengguna ini adalah peran spesial
+        const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
+            const source = badge.src || badge;
+            if (typeof source !== 'string') return false; // Pengaman untuk badge SVG
+            const src = source.toLowerCase();
+            return src.includes('owner') || src.includes('moderater') || src.includes('gifter') || src.includes('fans_badge');
+        });
+
+        // Abaikan event HANYA JIKA pesannya kosong DAN BUKAN peran spesial
+        if (!data.chatmessage && !data.hasDonation && data.event !== "new-membership" && !isSpecialRole) {
             return; 
         }
 
@@ -431,7 +435,7 @@ body, html {
         let roleClass = 'regular';
         let extra = {};
 
-        // ---- LOGIKA BARU YANG PALING LENGKAP ----
+        // ---- LOGIKA UTAMA MULTI-PLATFORM (FINAL) ----
 
         // Prioritas 1: Event "New Membership" / Subscriber
         if (data.event === "new-membership" || (data.membership && !data.chatmessage) || data.event === "subscribe") {
@@ -445,36 +449,40 @@ body, html {
             roleClass = 'donation';
             const donationMessage = data.hasDonation || `Mengirim ${data.giftCount || 1}x ${data.giftName || 'Gift'}`;
             extra.style = `background-color: ${data.nameColor || '#e62117'};`;
-            return enqueueMessage(username, donationMessage, roleClass, extra);
+            return enqueueMessage(username, donationMessage, roleClass);
         }
 
         // Jika lolos dari atas, ini adalah pesan obrolan biasa.
         // Sekarang kita tentukan gayanya.
         
-        // 2. Tentukan peran pengguna dari berbagai sumber data
+        // Siapkan badge srcs dengan aman untuk menghindari crash dari badge SVG
         const badgeSrcs = (data.chatbadges || []).map(badge => {
             const source = badge.src;
             return (typeof source === 'string') ? source.toLowerCase() : '';
-        }).filter(Boolean);
+        }).filter(Boolean); // Hapus entri yang kosong
 
-        if (data.isOwner || badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
+        // Deteksi peran dengan prioritas
+        if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
             roleClass = 'owner';
-        } else if (data.isModerator || badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
+        } 
+        // Mendukung ejaan 'moderator' (YT) dan 'moderater' (TikTok)
+        else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
             roleClass = 'moderator';
-        } else if (
-            data.membership === "MEMBERSHIP" || 
-            data.isSubscriber || // <-- Penanda Subscriber TikTok
+        } 
+        // Mendukung berbagai jenis member dari YT dan TikTok
+        else if (
+            data.membership === "MEMBERSHIP" || // Untuk member YouTube
             badgeSrcs.some(src =>
                 src.includes('gifter') ||
                 src.includes('subscriber') ||
                 src.includes('member') ||
-                (src.includes('fans_badge') && !src.includes('grey'))
+                (src.includes('fans_badge') && !src.includes('grey')) // Untuk Fans Club TikTok
             )
         ) {
             roleClass = 'member';
         }
 
-        // 3. Kirim pesan biasa ke antrian Anda
+        // Kirim pesan ke antrian Anda untuk ditampilkan
         enqueueMessage(username, message, roleClass);
     }
 
