@@ -60,7 +60,11 @@
         }
 
         .hl-message img.emoji {
-            width: 14px; height: 14px; vertical-align: middle;
+            width: 0.9em; /* Dibuat 90% dari tinggi font agar sejajar sempurna dengan teks */
+            height: 0.9em;
+            vertical-align: middle;
+            height: 0.9em;
+            vertical-align: middle;
         }
 
         /* Ornamen dasar */
@@ -431,8 +435,11 @@
             }
         },
 
-        showMessage(data) {
+        sshowMessage(data) {
+            // Render langsung dengan struktur highlight-chat bawaan buildMessageContent
             const contentHTML = this.buildMessageContent(data);
+
+            // Masukkan ke output
             document.getElementById('output').innerHTML = contentHTML;
         },
 
