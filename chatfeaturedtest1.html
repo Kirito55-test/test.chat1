@@ -248,13 +248,54 @@
 
         // FUNGSI INTI ANDA (sudah bersih dan terintegrasi)
         // ===============================================
+        // GANTIKAN FUNGSI showMessage LAMA ANDA DENGAN YANG INI
         showMessage(data) {
             const content = data;
 
-            // 1. Logika Deteksi Peran
+            // --- LOGIKA BARU YANG SUDAH DISEMPURNAKAN ---
+
+            // Prioritas 1: Event "New Subscriber" TULEN (hanya notifikasi, tanpa isi chat)
+            if (content.membership && !content.chatmessage) {
+                const messageContent = `
+                    <div class="chat-message new-subscriber">
+                        <div class="special-card new-subscriber">
+                            <div class="special-badge">NEW SUBSCRIBER</div>
+                            <div class="special-message">${content.chatname} ${content.membership}</div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('output').innerHTML = messageContent;
+                return; // Hentikan di sini
+            }
+
+            // Prioritas 2: Donasi
+            if (content.hasDonation) {
+                const messageContent = `
+                    <div class="chat-message donation">
+                        <div class="special-card donation">
+                            <div class="special-badge">DONATION</div>
+                            <div class="special-message">${content.chatname} ${content.hasDonation}</div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('output').innerHTML = messageContent;
+                return; // Hentikan di sini
+            }
+
+            // Jika lolos dari atas, ini adalah pesan obrolan biasa.
+            // Sekarang kita tentukan gayanya.
+
+            // 2. Deteksi Peran dari Lencana atau Properti Membership
             let roleClass = 'regular';
-            if (content.chatbadges) {
+            
+            // Deteksi Member YouTube secara spesifik
+            if (content.membership === "MEMBERSHIP") {
+                roleClass = 'member';
+            } 
+            // Deteksi peran lain dari lencana
+            else if (content.chatbadges) {
                 const badgeSrcs = content.chatbadges.map(badge => (badge.src || badge).toLowerCase());
+                
                 if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
                     roleClass = 'owner';
                 } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
@@ -263,7 +304,6 @@
                     badgeSrcs.some(src =>
                         src.includes('gifter') ||
                         src.includes('subscriber') ||
-                        src.includes('member') ||
                         (src.includes('fans_badge') && !src.includes('grey'))
                     )
                 ) {
@@ -271,35 +311,19 @@
                 }
             }
 
-            // 2. Pembuatan HTML Sesuai Desain Anda
-            let messageContent = '';
-
-            if (content.hasDonation || content.membership) {
-                let badgeText = content.hasDonation ? 'DONATION' : 'NEW SUBSCRIBER';
-                let cardRole = content.hasDonation ? 'donation' : 'new-subscriber';
-                let messageText = content.hasDonation || content.membership;
-                messageContent = `
-                    <div class="chat-message ${cardRole}">
-                        <div class="special-card ${cardRole}">
-                            <div class="special-badge">${badgeText}</div>
-                            <div class="special-message">${content.chatname} ${messageText}</div>
-                        </div>
+            // 3. Buat HTML untuk pesan obrolan biasa dengan peran yang sesuai
+            const messageContent = `
+                <div class="chat-message ${roleClass}">
+                    <div class="badge">${content.chatname}</div>
+                    <div class="message">
+                        ${content.chatmessage}
+                        <span class="ornament-extra-1"></span>
+                        <span class="ornament-extra-2"></span>
                     </div>
-                `;
-            } else {
-                messageContent = `
-                    <div class="chat-message ${roleClass}">
-                        <div class="badge">${content.chatname}</div>
-                        <div class="message">
-                            ${content.chatmessage}
-                            <span class="ornament-extra-1"></span>
-                            <span class="ornament-extra-2"></span>
-                        </div>
-                    </div>
-                `;
-            }
+                </div>
+            `;
 
-            // 3. Tampilkan Hasilnya
+            // 4. Tampilkan Hasilnya
             document.getElementById('output').innerHTML = messageContent;
         }
     };
