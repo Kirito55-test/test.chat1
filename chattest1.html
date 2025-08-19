@@ -410,6 +410,7 @@ body, html {
 
     // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
+        console.log("Data diterima:", JSON.stringify(data, null, 2));
         // ---- FILTER "PINTAR" (Tetap dipertahankan) ----
         const isSpecialRole = (data.isModerator || data.isOwner) || (data.chatbadges && data.chatbadges.some(badge => {
             const source = badge.src || badge;
