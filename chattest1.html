@@ -111,8 +111,8 @@ body, html {
 }
 
 .message img.emoji {
-    width: 1.1em; /* Ukuran emoji disesuaikan agar lebih pas dengan teks */
-    height: 1.1em;
+    width: 14px; /* Dibuat sama persis dengan ukuran font (14px) */
+    height: 14px;
     vertical-align: middle;
 }
 
@@ -446,7 +446,7 @@ body, html {
                     badgeSrcs.some(src =>
                         src.includes('gifter') ||
                         src.includes('subscriber') ||
-                        src.includes('member') ||
+                        src.includes('membership') ||
                         (src.includes('fans_badge') && !src.includes('grey'))
                     )
                 ) {
