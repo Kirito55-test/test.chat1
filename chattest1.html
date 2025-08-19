@@ -405,6 +405,8 @@ body, html {
 
     // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
+        console.log("DATA MENTAH YOUTUBE MEMBER:", JSON.stringify(data, null, 2));
+        
         // ---- FILTER "PINTAR" YANG DISEMPURNAKAN ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
             const src = (badge.src || badge).toLowerCase();
