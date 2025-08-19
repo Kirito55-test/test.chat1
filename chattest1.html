@@ -111,8 +111,8 @@ body, html {
 }
 
 .message img.emoji {
-    width: 1.2em; /* Ukuran emoji dibuat relatif terhadap font */
-    height: 1.2em;
+    width: 1.1em; /* Ukuran emoji disesuaikan agar lebih pas dengan teks */
+    height: 1.1em;
     vertical-align: middle;
 }
 
@@ -409,6 +409,8 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
+        console.log('Data received in addMessageToOverlay:', data); // Log data yang masuk
+
         const username = data.chatname;
         let roleClass = 'regular';
         let extra = {};
