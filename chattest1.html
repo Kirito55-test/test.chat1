@@ -291,11 +291,6 @@ body, html {
     const MAX_MESSAGES = urlParams.has("limit") ? parseInt(urlParams.get("limit")) : 8;
     const AUTO_HIDE = urlParams.has("autohide") ? parseInt(urlParams.get("autohide")) : 0; // Tambahkan &autohide=30 di URL untuk menyembunyikan pesan setelah 30 detik
 
-    // ✅ Ganti dengan data emote kustom YouTube Anda
-    const emotesArray = [
-        // Contoh: { "shortcuts": [":salam:"], "image": { "thumbnails": [{ "url": "https://url.to/your/emote.png" }] } }
-    ];
-
     // === QUEUE SYSTEM (Sistem Antrian Pesan) ===
     const messageQueue = [];
     let isProcessing = false;
@@ -408,55 +403,61 @@ body, html {
     // == BAGIAN 2: "JEMBATAN" PENGHUBUNG SSN KE SISTEM ANDA
     // ===================================================================
 
+    // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
-        console.log('Data received in addMessageToOverlay:', data); // Log data yang masuk
+        // ---- FILTER "PINTAR" YANG DISEMPURNAKAN ----
+        const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
+            const src = (badge.src || badge).toLowerCase();
+            return src.includes('owner') || src.includes('moderator') || src.includes('gifter') || src.includes('fans_badge');
+        });
+
+        if (!data.chatmessage && !data.hasDonation && !data.membership && !isSpecialRole) {
+            console.log("Event diabaikan (join/like dari user biasa):", data);
+            return; 
+        }
 
         const username = data.chatname;
+        // Gunakan fungsi makeRichMessageWithEmotes jika ada di file ini
+        const message = (typeof makeRichMessageWithEmotes === 'function') 
+            ? makeRichMessageWithEmotes(data.chatmessage) 
+            : data.chatmessage;
+            
         let roleClass = 'regular';
         let extra = {};
 
-        // 1. Prioritaskan event khusus (Donasi & Member Baru)
-        // Ini adalah event donasi
+        // 1. Prioritaskan event donasi & subscriber
         if (data.hasDonation) {
             roleClass = 'donation';
             extra.style = `background-color: ${data.nameColor || '#e62117'};`;
             return enqueueMessage(username, data.hasDonation, roleClass, extra);
         }
-        
-        // Ini adalah event member BARU, yang ditandai dengan adanya `data.membership`
-        // TAPI TIDAK ada `data.chatmessage`.
-        if (data.membership && !data.chatmessage) {
+        if (data.membership) {
             roleClass = 'new-subscriber';
             return enqueueMessage(username, data.membership, roleClass);
         }
-        
-        // 2. Proses pesan chat biasa (termasuk dari member yang sudah ada)
-        if (data.chatmessage) {
-            const message = makeRichMessageWithEmotes(data.chatmessage);
 
-            // Tentukan peran (role) untuk styling berdasarkan lencana (badges)
-            if (data.chatbadges) {
-                const badgeSrcs = data.chatbadges.map(badge => (badge.src || badge).toLowerCase());
-                
-                if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
-                    roleClass = 'owner';
-                } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
-                    roleClass = 'moderator';
-                } else if (
-                    badgeSrcs.some(src =>
-                        src.includes('gifter') ||
-                        src.includes('subscriber') ||
-                        src.includes('MEMBERSHIP') ||
-                        (src.includes('fans_badge') && !src.includes('grey'))
-                    )
-                ) {
-                    roleClass = 'member';
-                }
+        // 2. Tentukan peran pengguna dari lencana (badges) - LOGIKA TERBARU
+        if (data.chatbadges) {
+            const badgeSrcs = data.chatbadges.map(badge => (badge.src || badge).toLowerCase());
+            
+            if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
+                roleClass = 'owner';
+            } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
+                roleClass = 'moderator';
+            } else if (
+                badgeSrcs.some(src =>
+                    src.includes('gifter') ||
+                    src.includes('subscriber') || // <-- Ini akan menangkap member YouTube
+                    src.includes('member') ||
+                    (src.includes('fans_badge') && !src.includes('grey'))
+                )
+            ) {
+                roleClass = 'member';
             }
-
-            // Kirim pesan chat ke antrian untuk ditampilkan
-            return enqueueMessage(username, message, roleClass);
         }
+
+        // 3. Kirim pesan biasa ke antrian Anda
+        enqueueMessage(username, message, roleClass);
     }
 
     // ===================================================================
