@@ -432,15 +432,13 @@
         },
 
         showMessage(data) {
-            // Ambil konten utama dari data
             const content = data;
 
-            // 1. Logika Deteksi Peran (diambil dari addMessageToOverlay Anda)
-            // =============================================================
+            // 1. Logika Deteksi Peran Anda (Ini sudah benar dan kita pertahankan)
+            // =================================================================
             let roleClass = 'regular';
             if (content.chatbadges) {
                 const badgeSrcs = content.chatbadges.map(badge => (badge.src || badge).toLowerCase());
-                
                 if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
                     roleClass = 'owner';
                 } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
@@ -457,46 +455,29 @@
                 }
             }
 
-            // 2. Pembuatan HTML Sesuai Peran & Tipe Event
-            // ===========================================
+            // 2. Pembuatan HTML yang BENAR (Sesuai dengan CSS Anda)
+            // ======================================================
             let messageContent = '';
 
-            // Jika ini adalah donasi atau subscriber baru, gunakan format "Special Card"
-            if (content.hasDonation || content.membership) {
-                let badgeText = 'EVENT';
-                let messageText = content.hasDonation || content.membership;
-                let cardRole = 'regular';
+            // Templat ini tidak memiliki "Special Card", jadi kita fokus pada pesan biasa.
+            // Donasi dan membership akan tetap mendapatkan gaya peran yang sesuai.
+            
+            // Kita gunakan `makeRichMessageWithEmotes` jika Anda menambahkannya lagi.
+            // Jika tidak, ganti dengan 'content.chatmessage' biasa.
+            const messageText = content.chatmessage || '';
+            
+            messageContent = `
+                <div class="highlight-chat ${roleClass}">
+                    <div class="hl-name">${content.chatname || ''}</div>
+                    <div class="hl-message">
+                        ${content.hasDonation ? content.hasDonation + ' ' : ''}
+                        ${messageText}
+                        <span class="ornament-extra-1"></span>
+                        <span class="ornament-extra-2"></span>
+                    </div>
+                </div>
+            `;
 
-                if (content.hasDonation) {
-                    badgeText = 'DONATION';
-                    cardRole = 'donation';
-                } else if (content.membership) {
-                    badgeText = 'NEW SUBSCRIBER';
-                    cardRole = 'new-subscriber';
-                }
-                
-                messageContent = `
-                    <div class="chat-message ${cardRole}">
-                        <div class="special-card ${cardRole}">
-                            <div class="special-badge">${badgeText}</div>
-                            <div class="special-message">${content.chatname} ${messageText}</div>
-                        </div>
-                    </div>
-                `;
-            } 
-            // Jika tidak, gunakan format pesan biasa
-            else {
-                messageContent = `
-                    <div class="chat-message ${roleClass}">
-                        <div class="badge">${content.chatname}</div>
-                        <div class="message">
-                            ${content.chatmessage}
-                            <span class="ornament-extra-1"></span>
-                            <span class="ornament-extra-2"></span>
-                        </div>
-                    </div>
-                `;
-            }
 
             // 3. Tampilkan Hasilnya ke Layar
             // ================================
