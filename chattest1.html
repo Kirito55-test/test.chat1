@@ -111,11 +111,10 @@ body, html {
 }
 
 .message img.emoji {
-    width: 14px; /* Ukuran emoji disesuaikan agar pas */
-    height: 14px;
+    width: 1.2em; /* Ukuran emoji dibuat relatif terhadap font */
+    height: 1.2em;
     vertical-align: middle;
 }
-
 
 /* 5. Gaya Berdasarkan Peran (Owner, Moderator, dll.) */
 /* ================================================= */
@@ -410,62 +409,52 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        console.log("DATA MASUK DARI SSN:", data);
-        
-        if (!data.chatmessage && !data.hasDonation && !data.membership) {
-            console.log("Event diabaikan (kemungkinan join/like):", data); // Untuk debugging
-            return;
-        }
-
-        // 'data' adalah objek yang dikirim oleh SSN
-        if (!data.chatname && !data.chatmessage && !data.hasDonation && !data.membership) {
-            return;
-        }
-
         const username = data.chatname;
-        const message = makeRichMessageWithEmotes(data.chatmessage);
         let roleClass = 'regular';
         let extra = {};
 
-        // 1. Prioritaskan event donasi & subscriber
+        // 1. Prioritaskan event khusus (Donasi & Member Baru)
+        // Ini adalah event donasi
         if (data.hasDonation) {
             roleClass = 'donation';
-            // Anda bisa menambahkan warna dari data.nameColor jika tersedia
             extra.style = `background-color: ${data.nameColor || '#e62117'};`;
             return enqueueMessage(username, data.hasDonation, roleClass, extra);
         }
         
-        if (data.membership) {
+        // Ini adalah event member BARU, yang ditandai dengan adanya `data.membership`
+        // TAPI TIDAK ada `data.chatmessage`.
+        if (data.membership && !data.chatmessage) {
             roleClass = 'new-subscriber';
             return enqueueMessage(username, data.membership, roleClass);
         }
         
-        // 2. Tentukan peran pengguna dari lencana (badges)
-        if (data.chatbadges) {
-            const badgeSrcs = data.chatbadges.map(badge => (badge.src || badge).toLowerCase());
-            
-            // Prioritas peran
-            if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
-                roleClass = 'owner';
-            } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
-                roleClass = 'moderator';
-            } 
-            // Prioritaskan Gifter jika Anda ingin gaya khusus untuk mereka
-            else if (badgeSrcs.some(src => src.includes('gifter'))) {
-                roleClass = 'member'; // Atau 'member'
-            } 
-            // 1. Cek khusus untuk "Fans Club" (yang memiliki ikon) agar jadi MEMBER
-            else if (
-                badgeSrcs.some(src => 
-                    (src.includes('subscriber') || src.includes('member') || src.includes('fans_badge')) && !src.includes('grey')
-                )
-            ) {
-                roleClass = 'member';
-            } 
-        }
+        // 2. Proses pesan chat biasa (termasuk dari member yang sudah ada)
+        if (data.chatmessage) {
+            const message = makeRichMessageWithEmotes(data.chatmessage);
 
-        // 3. Kirim pesan biasa ke antrian Anda
-        enqueueMessage(username, message, roleClass);
+            // Tentukan peran (role) untuk styling berdasarkan lencana (badges)
+            if (data.chatbadges) {
+                const badgeSrcs = data.chatbadges.map(badge => (badge.src || badge).toLowerCase());
+                
+                if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
+                    roleClass = 'owner';
+                } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
+                    roleClass = 'moderator';
+                } else if (
+                    badgeSrcs.some(src =>
+                        src.includes('gifter') ||
+                        src.includes('subscriber') ||
+                        src.includes('member') ||
+                        (src.includes('fans_badge') && !src.includes('grey'))
+                    )
+                ) {
+                    roleClass = 'member';
+                }
+            }
+
+            // Kirim pesan chat ke antrian untuk ditampilkan
+            return enqueueMessage(username, message, roleClass);
+        }
     }
 
     // ===================================================================
