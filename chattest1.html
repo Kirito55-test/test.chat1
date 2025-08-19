@@ -409,17 +409,18 @@ body, html {
     // ===================================================================
 
     // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
+    // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
         console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
-        // ---- FILTER "PINTAR" UNTUK JOIN/LIKE (Tetap dipertahankan) ----
+        // ---- FILTER "PINTAR" (Tetap dipertahankan) ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
             const source = badge.src || badge;
-            if (typeof source !== 'string') return false; // Pengaman untuk badge SVG
+            if (typeof source !== 'string') return false;
             const src = source.toLowerCase();
             return src.includes('owner') || src.includes('moderator') || src.includes('gifter') || src.includes('fans_badge');
         });
 
-        if (!data.chatmessage && !data.hasDonation && !data.membership && !isSpecialRole) {
+        if (!data.chatmessage && !data.hasDonation && data.event !== "new-membership" && !isSpecialRole) {
             return; 
         }
 
@@ -431,13 +432,14 @@ body, html {
         let roleClass = 'regular';
         let extra = {};
 
-        // ---- LOGIKA BARU YANG SUDAH DISEMPURNAKAN ----
+        // ---- LOGIKA BARU YANG PALING AKURAT ----
 
-        // Prioritas 1: Event "New Subscriber" TULEN dari YouTube
-        // Ciri-cirinya: ada data.membership TAPI TIDAK ADA data.chatmessage
-        if (data.membership && !data.chatmessage) {
+        // Prioritas 1: Event "New Membership" dari YouTube atau platform lain
+        if (data.event === "new-membership" || (data.membership && !data.chatmessage)) {
             roleClass = 'new-subscriber';
-            return enqueueMessage(username, data.membership, roleClass);
+            // Tampilkan pesan selamat datang dari chatmessage, atau dari membership jika ada
+            const welcomeMessage = data.chatmessage || data.membership;
+            return enqueueMessage(username, welcomeMessage, roleClass);
         }
 
         // Prioritas 2: Donasi
@@ -448,27 +450,23 @@ body, html {
         }
 
         // Jika lolos dari atas, ini adalah pesan obrolan biasa.
-        // Sekarang kita tentukan gayanya berdasarkan badge.
-
-        // 2. Tentukan peran pengguna dari lencana (badges)
-        if (data.chatbadges) {
-            // ---- KODE ANTI-CRASH UNTUK BADGES ----
+        // Tentukan gayanya berdasarkan badge atau properti membership.
+        if (data.membership === "MEMBERSHIP") { // Deteksi member YouTube dari sini
+            roleClass = 'member';
+        } else if (data.chatbadges) {
             const badgeSrcs = data.chatbadges.map(badge => {
-                const source = badge.src; // Hanya ambil .src, abaikan SVG
+                const source = badge.src;
                 return (typeof source === 'string') ? source.toLowerCase() : '';
-            }).filter(Boolean); // Hapus entri yang kosong
+            }).filter(Boolean);
             
             if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
                 roleClass = 'owner';
             } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
                 roleClass = 'moderator';
             } else if (
-                // Untuk member YouTube, kita tidak perlu cek badge lagi, karena sudah ada properti `membership`
-                data.membership === "MEMBERSHIP" || 
                 badgeSrcs.some(src =>
                     src.includes('gifter') ||
                     src.includes('subscriber') ||
-                    src.includes('member') ||
                     (src.includes('fans_badge') && !src.includes('grey'))
                 )
             ) {
@@ -476,7 +474,7 @@ body, html {
             }
         }
 
-        // 3. Kirim pesan biasa ke antrian Anda
+        // Kirim pesan biasa ke antrian Anda
         enqueueMessage(username, message, roleClass);
     }
 
