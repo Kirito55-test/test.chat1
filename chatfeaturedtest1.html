@@ -52,8 +52,13 @@
             position: relative; left: 10px; max-width: 380px;
         }
 
-        .message img.emoji {
-            width: 14px; height: 14px; vertical-align: middle;
+        .message .emoji,
+        .message .regular-emote {
+            width: 28px !important;
+            height: 28px !important;
+            vertical-align: middle !important;
+            display: inline-block !important;
+            margin: -4px 2px 0 2px !important;
         }
 
         .message::before, .message::after, .ornament-extra-1, .ornament-extra-2 {
