@@ -432,56 +432,8 @@
         },
 
         showMessage(data) {
-            const content = data;
-
-            // 1. Logika Deteksi Peran Anda (Ini sudah benar dan kita pertahankan)
-            // =================================================================
-            let roleClass = 'regular';
-            if (content.chatbadges) {
-                const badgeSrcs = content.chatbadges.map(badge => (badge.src || badge).toLowerCase());
-                if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
-                    roleClass = 'owner';
-                } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
-                    roleClass = 'moderator';
-                } else if (
-                    badgeSrcs.some(src =>
-                        src.includes('gifter') ||
-                        src.includes('subscriber') ||
-                        src.includes('member') ||
-                        (src.includes('fans_badge') && !src.includes('grey'))
-                    )
-                ) {
-                    roleClass = 'member';
-                }
-            }
-
-            // 2. Pembuatan HTML yang BENAR (Sesuai dengan CSS Anda)
-            // ======================================================
-            let messageContent = '';
-
-            // Templat ini tidak memiliki "Special Card", jadi kita fokus pada pesan biasa.
-            // Donasi dan membership akan tetap mendapatkan gaya peran yang sesuai.
-            
-            // Kita gunakan `makeRichMessageWithEmotes` jika Anda menambahkannya lagi.
-            // Jika tidak, ganti dengan 'content.chatmessage' biasa.
-            const messageText = content.chatmessage || '';
-            
-            messageContent = `
-                <div class="highlight-chat ${roleClass}">
-                    <div class="hl-name">${content.chatname || ''}</div>
-                    <div class="hl-message">
-                        ${content.hasDonation ? content.hasDonation + ' ' : ''}
-                        ${messageText}
-                        <span class="ornament-extra-1"></span>
-                        <span class="ornament-extra-2"></span>
-                    </div>
-                </div>
-            `;
-
-
-            // 3. Tampilkan Hasilnya ke Layar
-            // ================================
-            document.getElementById('output').innerHTML = messageContent;
+            const contentHTML = this.buildMessageContent(data);
+            document.getElementById('output').innerHTML = contentHTML;
         },
 
         buildMessageContent(data) {
