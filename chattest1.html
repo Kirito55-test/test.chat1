@@ -409,18 +409,16 @@ body, html {
     // ===================================================================
 
     // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
-    // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
-        console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
         // ---- FILTER "PINTAR" (Tetap dipertahankan) ----
-        const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
+        const isSpecialRole = (data.isModerator || data.isOwner) || (data.chatbadges && data.chatbadges.some(badge => {
             const source = badge.src || badge;
             if (typeof source !== 'string') return false;
             const src = source.toLowerCase();
             return src.includes('owner') || src.includes('moderator') || src.includes('gifter') || src.includes('fans_badge');
-        });
+        }));
 
-        if (!data.chatmessage && !data.hasDonation && data.event !== "new-membership" && !isSpecialRole) {
+        if (!data.chatmessage && !data.hasDonation && !data.membership && !isSpecialRole) {
             return; 
         }
 
@@ -432,49 +430,50 @@ body, html {
         let roleClass = 'regular';
         let extra = {};
 
-        // ---- LOGIKA BARU YANG PALING AKURAT ----
+        // ---- LOGIKA BARU YANG PALING LENGKAP ----
 
-        // Prioritas 1: Event "New Membership" dari YouTube atau platform lain
-        if (data.event === "new-membership" || (data.membership && !data.chatmessage)) {
+        // Prioritas 1: Event "New Membership" / Subscriber
+        if (data.event === "new-membership" || (data.membership && !data.chatmessage) || data.event === "subscribe") {
             roleClass = 'new-subscriber';
-            // Tampilkan pesan selamat datang dari chatmessage, atau dari membership jika ada
-            const welcomeMessage = data.chatmessage || data.membership;
+            const welcomeMessage = data.chatmessage || data.membership || "Baru saja berlangganan!";
             return enqueueMessage(username, welcomeMessage, roleClass);
         }
 
-        // Prioritas 2: Donasi
-        if (data.hasDonation) {
+        // Prioritas 2: Donasi / Gift
+        if (data.hasDonation || data.event === "gift") {
             roleClass = 'donation';
+            const donationMessage = data.hasDonation || `Mengirim ${data.giftCount || 1}x ${data.giftName || 'Gift'}`;
             extra.style = `background-color: ${data.nameColor || '#e62117'};`;
-            return enqueueMessage(username, data.hasDonation, roleClass, extra);
+            return enqueueMessage(username, donationMessage, roleClass, extra);
         }
 
         // Jika lolos dari atas, ini adalah pesan obrolan biasa.
-        // Tentukan gayanya berdasarkan badge atau properti membership.
-        if (data.membership === "MEMBERSHIP") { // Deteksi member YouTube dari sini
+        // Sekarang kita tentukan gayanya.
+        
+        // 2. Tentukan peran pengguna dari berbagai sumber data
+        const badgeSrcs = (data.chatbadges || []).map(badge => {
+            const source = badge.src;
+            return (typeof source === 'string') ? source.toLowerCase() : '';
+        }).filter(Boolean);
+
+        if (data.isOwner || badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
+            roleClass = 'owner';
+        } else if (data.isModerator || badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
+            roleClass = 'moderator';
+        } else if (
+            data.membership === "MEMBERSHIP" || 
+            data.isSubscriber || // <-- Penanda Subscriber TikTok
+            badgeSrcs.some(src =>
+                src.includes('gifter') ||
+                src.includes('subscriber') ||
+                src.includes('member') ||
+                (src.includes('fans_badge') && !src.includes('grey'))
+            )
+        ) {
             roleClass = 'member';
-        } else if (data.chatbadges) {
-            const badgeSrcs = data.chatbadges.map(badge => {
-                const source = badge.src;
-                return (typeof source === 'string') ? source.toLowerCase() : '';
-            }).filter(Boolean);
-            
-            if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
-                roleClass = 'owner';
-            } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
-                roleClass = 'moderator';
-            } else if (
-                badgeSrcs.some(src =>
-                    src.includes('gifter') ||
-                    src.includes('subscriber') ||
-                    (src.includes('fans_badge') && !src.includes('grey'))
-                )
-            ) {
-                roleClass = 'member';
-            }
         }
 
-        // Kirim pesan biasa ke antrian Anda
+        // 3. Kirim pesan biasa ke antrian Anda
         enqueueMessage(username, message, roleClass);
     }
 
