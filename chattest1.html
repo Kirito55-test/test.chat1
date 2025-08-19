@@ -408,13 +408,11 @@ body, html {
     // == BAGIAN 2: "JEMBATAN" PENGHUBUNG SSN KE SISTEM ANDA
     // ===================================================================
 
-    // GANTIKAN FUNGSI LAMA DI CHAT-WIDGET ANDA DENGAN YANG INI
     function addMessageToOverlay(data) {
-        // Selalu cetak data mentah untuk debugging yang mudah
+        // Mencetak semua data mentah untuk debugging
         console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
 
-        // ---- FILTER "PINTAR" ----
-        // Cek dulu apakah pengguna ini adalah peran spesial
+        // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
             const source = badge.src || badge;
             if (typeof source !== 'string') return false; // Pengaman untuk badge SVG
@@ -422,7 +420,6 @@ body, html {
             return src.includes('owner') || src.includes('moderater') || src.includes('gifter') || src.includes('fans_badge');
         });
 
-        // Abaikan event HANYA JIKA pesannya kosong DAN BUKAN peran spesial
         if (!data.chatmessage && !data.hasDonation && data.event !== "new-membership" && !isSpecialRole) {
             return; 
         }
