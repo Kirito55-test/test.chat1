@@ -73,55 +73,52 @@
         /* Owner */
         .chat-message.owner .message {
             background-image: linear-gradient(to right, #05531C, #222222);
-            box-shadow: -1px 0px 4px rgba(71, 237, 118, 0.5), inset 0px 0px 4px rgba(71, 237, 118, 0.5);
+            box-shadow: -2px 0px 20px rgba(71, 237, 118, 1), inset 0px 0px 10px rgba(71, 237, 118, 1);
             color: #ffffff;
         }
         .chat-message.owner .badge {
             background-image: linear-gradient(to right, #06EC47, #11B23F);
-            box-shadow: 0px 0px 6px rgba(71, 237, 118, 0.5);
+            box-shadow: 0px 0px 12px rgba(71, 237, 118, 1);
             color: #222222;
         }
         .chat-message.owner .message::before {
             background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20green%20shad.svg');
-            width: 48px; height: 32px; top: -11px; right: -11px; z-index: 4;
+            width: 120px; aspect-ratio: 48 / 32; top: -28px; right: -44px; z-index: 4;
         }
         .chat-message.owner .message::after {
             background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
-            width: 28px; height: 20px; bottom: -2px; right: -10px; z-index: 4;
+            width: 60px; aspect-ratio: 28 / 20; bottom: 6px; right: -26px; z-index: 4;
             animation: sway 1s ease-in-out infinite alternate;
         }
         .chat-message.owner .ornament-extra-1 {
             background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
-            width: 28px; height: 20px; top: 0; left: -14px; z-index: 4;
+            width: 60px; aspect-ratio: 28 / 20; top: 0; left: -30px; z-index: 4;
             transform: rotate(-90deg);
             animation: sway-tilt-neg-90 1s ease-in-out infinite alternate;
         }
         .chat-message.owner .ornament-extra-2 {
             background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20green%20shad.svg');
-            width: 26px; height: 26px; bottom: 12px; left: -13px; z-index: 5;
+            width: 50px; aspect-ratio: 24 / 24; bottom: 22px; left: -26px; z-index: 5;
         }
-
-        /* ... (Salin sisa gaya untuk Moderator, Member, Regular di sini) ... */
-        /* Gaya untuk Moderator, Member, dan Regular sudah cocok dan bisa langsung digunakan */
 
         /* Moderator */
         .chat-message.moderator .message {
         background-image: linear-gradient(to right, #05531C, #222222);
-        box-shadow: -1px 0px 4px rgba(71, 237, 118, 0.5), inset 0px 0px 4px rgba(71, 237, 118, 0.5);
+        box-shadow: -2px 0px 20px rgba(71, 237, 118, 1), inset 0px 0px 10px rgba(71, 237, 118, 1);
         color: #ffffff;
         }
         .chat-message.moderator .badge {
         background-image: linear-gradient(to right, #06EC47, #11B23F);
-        box-shadow: 0px 0px 6px rgba(71, 237, 118, 0.5);
+        box-shadow: 0px 0px 12px rgba(71, 237, 118, 1);
         color: #222222;
         }
         .chat-message.moderator .message::before {
         background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20green%20shad.svg');
-        width: 26px; height: 26px; top: 12px; left: -13px; z-index: 5;
+        width: 50px; aspect-ratio: 24 / 24; bottom: 22px; left: -26px; z-index: 5;
         }
         .chat-message.moderator .message::after {
         background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
-        width: 28px; height: 20px; bottom: -2px; right: -10px; z-index: 4;
+        width: 60px; aspect-ratio: 28 / 20; bottom: 6px; right: -26px; z-index: 4;
         animation: sway 1s ease-in-out infinite alternate;
         }
 
@@ -138,7 +135,7 @@
         }
         .chat-message.member .message::before {
         background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20blak%20shad.svg');
-        width: 120px; aspect-ratio: 48 / 32; top: -28px; right: -38px; z-index: 4;
+        width: 120px; aspect-ratio: 48 / 32; top: -28px; right: -44px; z-index: 4;
         }
         .chat-message.member .message::after {
         background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
@@ -160,17 +157,17 @@
         /* Regular */
         .chat-message.regular .message {
         background-color: #222222;
-        box-shadow: -1px 0px 4px rgba(71, 237, 118, 0.5), inset 0px 0px 4px rgba(71, 237, 118, 0.5);
+        box-shadow: -2px 0px 20px rgba(71, 237, 118, 1), inset 0px 0px 10px rgba(71, 237, 118, 1);
         color: #ffffff;
         }
         .chat-message.regular .badge {
         background-image: linear-gradient(to right, #06EC47, #11B23F);
-        box-shadow: 0px 0px 6px rgba(71, 237, 118, 0.5);
+        box-shadow: 0px 0px 12px rgba(71, 237, 118, 1);
         color: #222222;
         }
         .chat-message.regular .message::before {
-        background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20green%20shad.svg');
-        width: 48px; height: 32px; top: -11px; right: -11px; z-index: 4;
+        background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20blak%20shad.svg');
+        width: 120px; aspect-ratio: 48 / 32; top: -28px; right: -44px; z-index: 4;
         }
         /* Special Cards */
         .special-card {
