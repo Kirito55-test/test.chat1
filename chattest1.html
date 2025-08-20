@@ -410,11 +410,7 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        console.group("Detail Pengguna: Kirito");
-            console.log("ID: 1");
-            console.log("Peran: Owner");
-            console.log("Status: Aktif");
-        console.groupEnd();
+        console.log("Ini adalah pesan standar untuk informasi umum.");
 
         // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
