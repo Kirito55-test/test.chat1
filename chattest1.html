@@ -111,7 +111,8 @@ body, html {
 }
 
 .message .emoji,
-.message .regular-emote {
+.message .regular-emote,
+.message .tiktok-emote {
     /* Atur ukuran yang diinginkan, 28px adalah ukuran yang baik */
     width: 28px !important;
     height: 28px !important;
@@ -409,8 +410,8 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        // Mencetak semua data mentah untuk debugging
-        console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
+        // Menampilkan seluruh objek data yang diterima dari Social Stream Ninja ke console
+        console.log("SSN Data Received:", data);
 
         // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
