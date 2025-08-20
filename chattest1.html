@@ -454,9 +454,14 @@ body, html {
         
         // Siapkan badge srcs dengan aman untuk menghindari crash dari badge SVG
         const badgeSrcs = (data.chatbadges || []).map(badge => {
-            const source = badge.src;
-            return (typeof source === 'string') ? source.toLowerCase() : '';
-        }).filter(Boolean); // Hapus entri yang kosong
+            if (typeof badge === 'string') { // TANGANI TIKTOK
+                return badge.toLowerCase();
+            }
+            if (typeof badge === 'object' && typeof badge.src === 'string') { // TANGANI YOUTUBE
+                return badge.src.toLowerCase();
+            }
+            return ''; // ABAIKAN YANG LAIN
+        }).filter(Boolean);
 
         // Deteksi peran dengan prioritas
         if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
