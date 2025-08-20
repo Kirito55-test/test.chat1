@@ -114,8 +114,8 @@ body, html {
 .message .regular-emote,
 .message .tiktok-emote {
     /* Atur ukuran yang diinginkan, 28px adalah ukuran yang baik */
-    width: 28px !important;
-    height: 28px !important;
+    width: 24px !important;
+    height: 24px !important;
 
     /* Pastikan gambar sejajar dengan teks */
     vertical-align: middle !important;
@@ -410,8 +410,11 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        // Menampilkan seluruh objek data yang diterima dari Social Stream Ninja ke console
-        console.log("SSN Data Received:", data);
+        console.group("Detail Pengguna: Kirito");
+            console.log("ID: 1");
+            console.log("Peran: Owner");
+            console.log("Status: Aktif");
+        console.groupEnd();
 
         // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
