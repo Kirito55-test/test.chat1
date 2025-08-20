@@ -142,7 +142,7 @@
         }
         .chat-message.member .message::after {
         background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
-        width: 56px; aspect-ratio: 28 / 20; bottom: 18px; right: 60px; z-index: 4;
+        width: 56px; aspect-ratio: 28 / 20; bottom: 18px; right: -58px; z-index: 4;
         transform: rotate(90deg);
         animation: sway-tilt-neg90 1s ease-in-out infinite alternate;
         }
@@ -196,10 +196,23 @@
             70% { opacity: 1; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1); }
         }
-        @keyframes fadeOut { to { opacity: 0; transform: translateY(-50px); } }
-        @keyframes sway { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
-        /* ... (tambahkan @keyframes lainnya jika perlu) ... */
-
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1) translateY(-50px); }
+            to { opacity: 0; transform: scale(0); }
+        }
+        /* Animasi ornamen */
+        @keyframes sway {
+            from { transform: rotate(-6deg); }
+            to { transform: rotate(6deg); }
+        }
+        @keyframes sway-tilt-neg-90 {
+            from { transform: rotate(-96deg); }
+            to { transform: rotate(-84deg); }
+        }
+        @keyframes sway-tilt-neg90 {
+            from { transform: rotate(84deg); }
+            to { transform: rotate(96deg); }
+        }
     </style>
 </head>
 <body>
