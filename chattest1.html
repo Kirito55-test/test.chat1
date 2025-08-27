@@ -410,7 +410,8 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
+        alert("Pesan Diterima! Sekarang periksa console.");
+        console.log("DATA MENTAH FINAL:", JSON.stringify(data, null, 2));
 
         // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
