@@ -34,14 +34,16 @@ body, html {
     width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Sedikit mengurangi jarak agar lebih pas */
+    gap: 24px; /* Sedikit mengurangi jarak agar lebih pas */
     overflow: visible;
 }
 
 /* 3. Animasi Pesan */
 /* =================================== */
 .chat-message {
-    opacity: 0;
+    padding: 3px;
+    background-color: #ffffff;
+    border-radius: 13px;
     animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     position: relative;
     display: inline-block;
@@ -87,7 +89,7 @@ body, html {
     border-radius: 12px;
     font-size: 12px;
     position: absolute;
-    top: -42px;
+    top: -24px;
     left: 20px;
     z-index: 99;
     background-color: #ffffff;
@@ -110,18 +112,6 @@ body, html {
     overflow-wrap: break-word;
     position: relative;
     left: 10px;
-}
-
-.message::before {
-    content: '';
-    position: relative;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: 14px;
-    background-color: #ffffff;
-    z-index: -1;
 }
 
 /* Perbaikan final untuk SEMUA jenis emoji dan stiker */
@@ -155,7 +145,7 @@ body, html {
     border: #ffffff;
     color: #ffffff;
 }
-.chat-message.owner .message::before {
+.chat-message.owner .chat-message {
   background-image: linear-gradient(to bottom, #FF8A84, #F74B4B);
 }
 .chat-message.owner .badge {
@@ -189,7 +179,7 @@ body, html {
   border: #FFAAA1;
   color: #FFAAA1;
 }
-.chat-message.moderator .message::before {
+.chat-message.moderator .chat-message {
   background-color: #4A240A;
 }
 .chat-message.moderator .badge {
@@ -213,7 +203,7 @@ body, html {
   border: #764025;
   color: #764025;
 }
-.chat-message.member .message::before {
+.chat-message.member .chat-message{
   background-image: linear-gradient(to right, #FFC784, #FFD7A7);
 }
 .chat-message.member .badge {
@@ -248,7 +238,7 @@ body, html {
   border: #FF7070;
   color: #FF7070;
 }
-.chat-message.regular .message::before {
+.chat-message.regular .chat-message {
   background-color: #ffffff;
 }
 .chat-message.regular .badge {
