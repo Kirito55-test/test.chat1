@@ -55,14 +55,17 @@
             width: 100%;
         }
 
-        .message .emoji,
-        .message .regular-emote,
-        .message .tiktok-emote {
+        .message img {
+            /* Atur ukuran yang diinginkan */
             width: 28px !important;
             height: 28px !important;
+
+            /* Jaga agar tetap sejajar dengan teks */
             vertical-align: middle !important;
+            
+            /* Perbaikan visual minor */
             display: inline-block !important;
-            margin: 0px 2px 0 2px !important;
+            margin: -4px 2px 0 2px !important;
         }
 
         .message::before, .message::after, .ornament-extra-1, .ornament-extra-2 {
