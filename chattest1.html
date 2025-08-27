@@ -449,8 +449,12 @@ body, html {
             return enqueueMessage(username, donationMessage, roleClass);
         }
 
-        // Jika lolos dari atas, ini adalah pesan obrolan biasa.
-        // Sekarang kita tentukan gayanya.
+        if (data.type === 'tiktok' && data.giftName) {
+        roleClass = 'donation'; // Kita gunakan gaya donasi
+            const giftMessage = `Mengirim ${data.repeatCount || 1}x ${data.giftName}`;
+            extra.style = `background-color: #FFD700; color: #000;`; // Contoh gaya emas untuk gift
+            return enqueueMessage(username, giftMessage, roleClass, extra);
+        }
         
         // Siapkan badge srcs dengan aman untuk menghindari crash dari badge SVG
         const badgeSrcs = (data.chatbadges || []).map(badge => {
