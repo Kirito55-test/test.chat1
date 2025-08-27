@@ -403,14 +403,14 @@ body, html {
             firstMessage.classList.add('fade-out');
             setTimeout(() => firstMessage.remove(), 600);
         }
-    }
+    }console.log("Ini adalah pesan standar untuk informasi umum.");
 
     // ===================================================================
     // == BAGIAN 2: "JEMBATAN" PENGHUBUNG SSN KE SISTEM ANDA
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        console.log("Ini adalah pesan standar untuk informasi umum.");
+        console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
 
         // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
         const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
