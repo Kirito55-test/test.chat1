@@ -110,14 +110,13 @@ body, html {
     left: 10px;
 }
 
-.message .emoji,
-.message .regular-emote,
-.message .tiktok-emote {
-    /* Atur ukuran yang diinginkan, 28px adalah ukuran yang baik */
-    width: 24px !important;
-    height: 24px !important;
+/* Perbaikan final untuk SEMUA jenis emoji dan stiker */
+.message img {
+    /* Atur ukuran yang diinginkan */
+    width: 28px !important;
+    height: 28px !important;
 
-    /* Pastikan gambar sejajar dengan teks */
+    /* Jaga agar tetap sejajar dengan teks */
     vertical-align: middle !important;
     
     /* Perbaikan visual minor */
@@ -442,18 +441,20 @@ body, html {
         }
 
         // Prioritas 2: Donasi / Gift
-        if (data.hasDonation || data.event === "gift") {
+        if (data.hasDonation || data.event === "gift" || (data.type === 'tiktok' && data.giftName)) {
             roleClass = 'donation';
-            const donationMessage = data.hasDonation || `Mengirim ${data.giftCount || 1}x ${data.giftName || 'Gift'}`;
-            extra.style = `background-color: ${data.nameColor || '#e62117'};`;
-            return enqueueMessage(username, donationMessage, roleClass);
-        }
+            let donationMessage;
 
-        if (data.type === 'tiktok' && data.giftName) {
-        roleClass = 'donation'; // Kita gunakan gaya donasi
-            const giftMessage = `Mengirim ${data.repeatCount || 1}x ${data.giftName}`;
-            extra.style = `background-color: #FFD700; color: #000;`; // Contoh gaya emas untuk gift
-            return enqueueMessage(username, giftMessage, roleClass, extra);
+            if (data.type === 'tiktok' && data.giftName) {
+                // Logika spesifik untuk Gift TikTok
+                donationMessage = `Mengirim ${data.repeatCount || 1}x ${data.giftName}`;
+                extra.style = `background-color: #FFD700; color: #000;`; // Gaya emas
+            } else {
+                // Logika umum untuk Donasi lain (seperti YouTube Super Chat)
+                donationMessage = data.hasDonation;
+                extra.style = `background-color: ${data.nameColor || '#e62117'};`;
+            }
+            return enqueueMessage(username, donationMessage, roleClass, extra);
         }
         
         // Siapkan badge srcs dengan aman untuk menghindari crash dari badge SVG
