@@ -409,87 +409,70 @@ body, html {
     // ===================================================================
 
     function addMessageToOverlay(data) {
-        console.log("DATA MENTAH:", JSON.stringify(data, null, 2));
-
-        // ---- FILTER "PINTAR" UNTUK JOIN/LIKE ----
-        const isSpecialRole = data.chatbadges && data.chatbadges.some(badge => {
-            const source = badge.src || badge;
-            if (typeof source !== 'string') return false; // Pengaman untuk badge SVG
-            const src = source.toLowerCase();
-            return src.includes('owner') || src.includes('moderater') || src.includes('gifter') || src.includes('fans_badge');
-        });
-
-        if (!data.chatmessage && !data.hasDonation && data.event !== "new-membership" && !isSpecialRole) {
-            return; 
-        }
+        // Selalu cetak data mentah untuk debugging
+        console.log("Data diterima oleh Chat Widget:", JSON.stringify(data, null, 2));
 
         const username = data.chatname;
-        const message = (typeof makeRichMessageWithEmotes === 'function') 
-            ? makeRichMessageWithEmotes(data.chatmessage) 
-            : data.chatmessage;
+        const message = data.chatmessage; // Ambil pesan mentah
                 
-        let roleClass = 'regular';
-        let extra = {};
+        // ---- LOGIKA FINAL DENGAN PRIORITAS TETAP ----
 
-        // ---- LOGIKA UTAMA MULTI-PLATFORM (FINAL) ----
-
-        // Prioritas 1: Event "New Membership" / Subscriber
-        if (data.event === "new-membership" || (data.membership && !data.chatmessage) || data.event === "subscribe") {
-            roleClass = 'new-subscriber';
-            const welcomeMessage = data.chatmessage || data.membership || "Baru saja berlangganan!";
-            return enqueueMessage(username, welcomeMessage, roleClass);
-        }
-
-        // Prioritas 2: Donasi / Gift
-        if (data.hasDonation || data.event === "gift" || (data.type === 'tiktok' && data.giftName)) {
-            roleClass = 'donation';
-            let donationMessage;
-
-            if (data.type === 'tiktok' && data.giftName) {
-                // Logika spesifik untuk Gift TikTok
-                donationMessage = `Mengirim ${data.repeatCount || 1}x ${data.giftName}`;
-                extra.style = `background-color: #FFD700; color: #000;`; // Gaya emas
-            } else {
-                // Logika umum untuk Donasi lain (seperti YouTube Super Chat)
-                donationMessage = data.hasDonation;
-                extra.style = `background-color: ${data.nameColor || '#e62117'};`;
-            }
-            return enqueueMessage(username, donationMessage, roleClass, extra);
+        // Prioritas #1: Apakah ini event GIFT dari TikTok?
+        if (data.event === "gift" || (data.type === 'tiktok' && data.giftName)) {
+            const giftMessage = `Mengirim ${data.repeatCount || 1}x ${data.giftName || 'Gift'}`;
+            enqueueMessage(username, giftMessage, 'donation', { style: `background-color: #FFD700; color: #000;` });
+            return; // Selesai
         }
         
-        // Siapkan badge srcs dengan aman untuk menghindari crash dari badge SVG
+        // Prioritas #2: Apakah ini event DONASI (misal: Super Chat YouTube)?
+        if (data.hasDonation) {
+            enqueueMessage(username, data.hasDonation, 'donation', { style: `background-color: ${data.nameColor || '#e62117'};` });
+            return; // Selesai
+        }
+
+        // Prioritas #3: Apakah ini notifikasi NEW MEMBER?
+        if (data.event === "new-membership" || (data.membership && !data.chatmessage) || data.event === "subscribe") {
+            const welcomeMessage = data.chatmessage || data.membership || "Baru saja berlangganan!";
+            enqueueMessage(username, welcomeMessage, 'new-subscriber');
+            return; // Selesai
+        }
+
+        if (data.event === true) {
+            console.log("Event umum diabaikan (Follow/Share/Like):", data);
+            return;
+        }
+
+        // Prioritas #4: Jika bukan event di atas, maka ini adalah PESAN OBROLAN BIASA
+        // Abaikan jika tidak ada isi pesan
+        if (!message) {
+            return;
+        }
+
+        // Tentukan peran untuk pesan obrolan biasa
+        let roleClass = 'regular';
         const badgeSrcs = (data.chatbadges || []).map(badge => {
-            if (typeof badge === 'string') { // TANGANI TIKTOK
-                return badge.toLowerCase();
-            }
-            if (typeof badge === 'object' && typeof badge.src === 'string') { // TANGANI YOUTUBE
-                return badge.src.toLowerCase();
-            }
-            return ''; // ABAIKAN YANG LAIN
+            if (typeof badge === 'string') return badge.toLowerCase();
+            if (typeof badge === 'object' && typeof badge.src === 'string') return badge.src.toLowerCase();
+            return '';
         }).filter(Boolean);
 
-        // Deteksi peran dengan prioritas
         if (badgeSrcs.some(src => src.includes('broadcaster') || src.includes('owner'))) {
             roleClass = 'owner';
-        } 
-        // Mendukung ejaan 'moderator' (YT) dan 'moderater' (TikTok)
-        else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
+        } else if (badgeSrcs.some(src => src.includes('moderator') || src.includes('moderater'))) {
             roleClass = 'moderator';
-        } 
-        // Mendukung berbagai jenis member dari YT dan TikTok
-        else if (
-            data.membership === "MEMBERSHIP" || // Untuk member YouTube
+        } else if (
+            data.membership === "MEMBERSHIP" ||
             badgeSrcs.some(src =>
                 src.includes('gifter') ||
                 src.includes('subscriber') ||
                 src.includes('member') ||
-                (src.includes('fans_badge') && !src.includes('grey')) // Untuk Fans Club TikTok
+                (src.includes('fans_badge') && !src.includes('grey'))
             )
         ) {
             roleClass = 'member';
         }
 
-        // Kirim pesan ke antrian Anda untuk ditampilkan
+        // Kirim pesan obrolan biasa ke antrian
         enqueueMessage(username, message, roleClass);
     }
 
