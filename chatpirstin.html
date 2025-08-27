@@ -34,7 +34,7 @@ body, html {
     width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 24px; /* Sedikit mengurangi jarak agar lebih pas */
+    gap: 32px; /* Sedikit mengurangi jarak agar lebih pas */
     overflow: visible;
 }
 
@@ -86,7 +86,7 @@ body, html {
     color: #FF7070;
     padding: 4px 10px;
     border: 0.5px solid #FF7070;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 12px;
     position: absolute;
     top: -24px;
@@ -103,7 +103,7 @@ body, html {
     background: #ffffff;
     color: #FF7070;
     font-size: 14px;
-    padding: 16px 24px;
+    padding: 10px 24px;
     border: 2px solid #FF7070;
     border-radius: 10px;
     display: inline-block;
@@ -111,7 +111,6 @@ body, html {
     box-sizing: border-box;
     overflow-wrap: break-word;
     position: relative;
-    left: 10px;
 }
 
 /* Perbaikan final untuk SEMUA jenis emoji dan stiker */
@@ -154,22 +153,22 @@ body, html {
     color: #ffffff;
 }
 .chat-message.owner .message::before {
-    background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20green%20shad.svg');
+    background-image: url('');
     width: 48px; height: 32px; top: -11px; right: -11px; z-index: 4;
 }
 .chat-message.owner .message::after {
-    background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
+    background-image: url('');
     width: 28px; height: 20px; bottom: -2px; right: -10px; z-index: 4;
     animation: sway 1s ease-in-out infinite alternate;
 }
 .chat-message.owner .ornament-extra-1 {
-    background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
+    background-image: url('');
     width: 28px; height: 20px; top: 0; left: -14px; z-index: 4;
     transform: rotate(-90deg);
     animation: sway-tilt-neg-90 1s ease-in-out infinite alternate;
 }
 .chat-message.owner .ornament-extra-2 {
-    background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20green%20shad.svg');
+    background-image: url('');
     width: 26px; height: 26px; bottom: 12px; left: -13px; z-index: 5;
 }
 
@@ -188,11 +187,11 @@ body, html {
   color: #FFAAA1;
 }
 .chat-message.moderator .message::before {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20green%20shad.svg');
+  background-image: url('');
   width: 26px; height: 26px; top: 12px; left: -13px; z-index: 5;
 }
 .chat-message.moderator .message::after {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
+  background-image: url('');
   width: 28px; height: 20px; bottom: -2px; right: -10px; z-index: 4;
   animation: sway 1s ease-in-out infinite alternate;
 }
@@ -212,23 +211,23 @@ body, html {
   color: #764025;
 }
 .chat-message.member .message::before {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20blak%20shad.svg');
+  background-image: url('');
   width: 48px; height: 32px; top: -11px; right: -11px; z-index: 4;
 }
 .chat-message.member .message::after {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
+  background-image: url('');
   width: 28px; height: 20px; bottom: 2px; right: -12px; z-index: 4;
   transform: rotate(90deg);
   animation: sway-tilt-neg90 1s ease-in-out infinite alternate;
 }
 .chat-message.member .ornament-extra-1 {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/leaf%20green%20shad.svg');
+  background-image: url('');
   width: 28px; height: 20px; top: 0; left: -14px; z-index: 4;
   transform: rotate(-90deg);
   animation: sway-tilt-neg-90 1s ease-in-out infinite alternate;
 }
 .chat-message.member .ornament-extra-2 {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/1flow%20black%20shad.svg');
+  background-image: url('');
   width: 24px; height: 24px; bottom: 14px; left: -12px; z-index: 5;
 }
 
@@ -247,7 +246,7 @@ body, html {
   color: #FF7070;
 }
 .chat-message.regular .message::before {
-  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/aa6dce2947015022e019588df0b78b40805af9d2/3flow%20green%20shad.svg');
+  background-image: url('');
   width: 48px; height: 32px; top: -11px; right: -11px; z-index: 4;
 }
 
