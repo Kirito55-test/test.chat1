@@ -81,23 +81,6 @@ body, html {
 
 /* 4. Gaya Pesan Biasa & Lencana */
 /* =================================== */
-.badge {
-    font-weight: 700;
-    color: #FF7070;
-    padding: 2px 10px;
-    border: 0.5px solid #FF7070;
-    border-radius: 6px;
-    font-size: 12px;
-    position: relative;
-    top: -26px;
-    left: 8px;
-    z-index: 99;
-    background-color: #ffffff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .message {
     font-weight: 700;
     background: #ffffff;
@@ -111,6 +94,24 @@ body, html {
     box-sizing: border-box;
     overflow-wrap: break-word;
     position: relative;
+}
+
+.badge {
+    font-weight: 700;
+    color: #FF7070;
+    padding: 2px 10px;
+    border: 0.5px solid #FF7070;
+    border-radius: 6px;
+    font-size: 12px;
+    position: relative;
+    top: -26px;
+    left: 8px;
+    z-index: 99;
+    background-color: #ffffff;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Perbaikan final untuk SEMUA jenis emoji dan stiker */
@@ -186,7 +187,7 @@ body, html {
   background-color: #4A2C08;
   border: 2px solid transparent;
   border-image-source: linear-gradient(to bottom, #FEC7C8, #B63F40);
-  border-image-slice: fill;
+  border-image-slice: 1;
   color: #FFAAA1;
 }
 .chat-message.moderator .badge {
@@ -253,7 +254,7 @@ body, html {
   background-color: #ffffff;
   border: 2px solid transparent;
   border-image-source: linear-gradient(to bottom, #FEC7C8, #B63F40);
-  border-image-slice: fill;
+  border-image-slice: 1;
   color: #FF7070;
 }
 .chat-message.regular .badge {
