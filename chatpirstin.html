@@ -81,7 +81,22 @@ body, html {
 
 /* 4. Gaya Pesan Biasa & Lencana */
 /* =================================== */
+.message {
+    font-weight: 700;
+    background: #ffffff;
+    color: #FF7070;
+    font-size: 14px;
+    padding: 8px 32px;
+    border-radius: 10px;
+    display: inline-block;
+    min-width: 100px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    position: relative;
+}
+
 .badge {
+    position: absolute;
     font-weight: 700;
     color: #FF7070;
     padding: 2px 10px;
@@ -89,29 +104,14 @@ body, html {
     border-radius: 6px;
     font-size: 12px;
     position: relative;
+    display: inline-block;
     top: -28px;
     left: 8px;
     z-index: 99;
     background-color: #ffffff;
-    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.message {
-    font-weight: 700;
-    background: #ffffff;
-    color: #FF7070;
-    font-size: 14px;
-    padding: 8px 32px;
-    border: 2px solid #FF7070;
-    border-radius: 10px;
-    display: inline-block;
-    min-width: 100px;
-    box-sizing: border-box;
-    overflow-wrap: break-word;
-    position: relative;
 }
 
 /* Perbaikan final untuk SEMUA jenis emoji dan stiker */
@@ -178,17 +178,14 @@ body, html {
 
 /* Moderator */
 .chat-message.moderator {
-  background-color: #4A2C08;
-  padding: 4px; 
+  background-image: linear-gradient(to bottom, #FEC7C8, #B63F40);
+  padding: 2px; 
+  border: 4px solid #4A2C08;
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.moderator .message {
   background-color: #4A2C08;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  border-image-source: linear-gradient(to bottom, #FEC7C8, #B63F40);
-  border-image-slice: 1;
   color: #FFAAA1;
 }
 .chat-message.moderator .badge {
@@ -246,17 +243,14 @@ body, html {
 
 /* Regular */
 .chat-message.regular {
-  background-color: #ffffff;
-  padding: 4px; 
+  background-image: linear-gradient(to bottom, #FEC7C8, #B63F40);
+  padding: 2px;
+  border: 4px solid #ffffff;
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.regular .message {
   background-color: #ffffff;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  border-image-source: linear-gradient(to bottom, #FEC7C8, #B63F40);
-  border-image-slice: 1;
   color: #FF7070;
 }
 .chat-message.regular .badge {
