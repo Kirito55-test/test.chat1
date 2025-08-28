@@ -14,13 +14,13 @@
 
 /* 1. Impor Font dan Pengaturan Dasar */
 /* =================================== */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Radley:wght@600;700;900&display=swap');
 
 body, html {
     margin: 0;
     padding: 0;
     background: transparent;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Radley', serif;
     overflow: hidden; /* Mencegah scrollbar yang tidak diinginkan */
 }
 
@@ -81,29 +81,12 @@ body, html {
 
 /* 4. Gaya Pesan Biasa & Lencana */
 /* =================================== */
-.badge {
-    font-weight: 700;
-    color: #FF7070;
-    padding: 2px 10px;
-    border: 0.5px solid #FF7070;
-    border-radius: 6px;
-    font-size: 12px;
-    position: absolute;
-    top: -28px;
-    left: 8px;
-    z-index: 99;
-    background-color: #ffffff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .message {
     font-weight: 700;
     background: #ffffff;
     color: #FF7070;
     font-size: 14px;
-    padding: 8px 24px;
+    padding: 8px 32px;
     border: 2px solid #FF7070;
     border-radius: 10px;
     display: inline-block;
@@ -111,6 +94,23 @@ body, html {
     box-sizing: border-box;
     overflow-wrap: break-word;
     position: relative;
+}
+
+.badge {
+    font-weight: 700;
+    color: #FF7070;
+    padding: 2px 10px;
+    border: 0.5px solid #FF7070;
+    border-radius: 6px;
+    font-size: 12px;
+    position: relative;
+    top: -26px;
+    left: 8px;
+    z-index: 99;
+    background-color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Perbaikan final untuk SEMUA jenis emoji dan stiker */
@@ -140,18 +140,18 @@ body, html {
 
 /* Owner */
 .chat-message.owner {
-  background-image: linear-gradient(to bottom, #FF8A84, #F74B4B);
+  background-image: linear-gradient(to bottom, #F5BACC, #E6798C);
   padding: 4px; 
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.owner .message {
-    background-image: linear-gradient(to bottom, #FF8A84, #F74B4B);
+    background-image: linear-gradient(to bottom, #F5BACC, #E6798C);
     border: 2px solid #ffffff;
     color: #ffffff;
 }
 .chat-message.owner .badge {
-    background-image: linear-gradient(to bottom, #FF8A84, #F74B4B);
+    background-image: linear-gradient(to bottom, #F5BACC, #E6798C);
     border: 0.5px solid #ffffff;
     color: #ffffff;
 }
@@ -177,14 +177,16 @@ body, html {
 
 /* Moderator */
 .chat-message.moderator {
-  background-color: #4A240A;
+  background-color: #4A2C08;
   padding: 4px; 
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.moderator .message {
-  background-color: #4A240A;
-  border: 2px solid #FFAAA1;
+  background-color: #4A2C08;
+  border: 2px solid transparent;
+  border-image-source: linear-gradient(to bottom, #FEC7C8, #B63F40);
+  border-image-slice: fill;
   color: #FFAAA1;
 }
 .chat-message.moderator .badge {
@@ -204,18 +206,18 @@ body, html {
 
 /* Member */
 .chat-message.member {
-  background-image: linear-gradient(to right, #FFC784, #FFD7A7);
+  background-image: linear-gradient(to right, #EED5BF, #FFFFFF);
   padding: 4px; 
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.member .message {
-  background-image: linear-gradient(to right, #FFC784, #FFD7A7);
+  background-image: linear-gradient(to right, #EED5BF, #FFFFFF);
   border: 2px solid #764025;
   color: #764025;
 }
 .chat-message.member .badge {
-  background-image: linear-gradient(to right, #FFC784, #FFD7A7);
+  background-image: linear-gradient(to right, #EED5BF, #FFFFFF);
   border: 0.5px solid #764025;
   color: #764025;
 }
@@ -249,7 +251,9 @@ body, html {
 }
 .chat-message.regular .message {
   background-color: #ffffff;
-  border: 2px solid #FF7070;
+  border: 2px solid transparent;
+  border-image-source: linear-gradient(to bottom, #FEC7C8, #B63F40);
+  border-image-slice: fill;
   color: #FF7070;
 }
 .chat-message.regular .badge {
