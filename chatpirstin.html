@@ -210,14 +210,17 @@ body, html {
 }
 .chat-message.member .message {
   background-image: linear-gradient(to right, #E46870, #5E0B15);
-  border-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/ffe450b088819e5c1304cfe24e7d14fb275b6054/gradient%20border.svg');
+  border: 2px transparent;
+  border-image-source: linear-gradient(to bottom, #E46870, #5E0B15);
+  border-image-slice: 1;
+  border-radius: 10px;
   color: #F6C4C3;
 }
 .chat-message.member .badge {
   background-image: linear-gradient(to right, #E46870, #5E0B15);
   border: 0.5px solid #F6C4C3;
   top: -24px;
-  color: #764025;
+  color: #F6C4C3;
 }
 .chat-message.member .message::before {
   background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/d268fa6f513a93b868e1060ef0b2148c73d7df2c/lumeran%20coklat%2050x24.svg');
