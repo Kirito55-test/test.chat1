@@ -203,19 +203,19 @@ body, html {
 
 /* Member */
 .chat-message.member {
-  background-image: linear-gradient(to right, #EED5BF, #FFFFFF);
+  background-image: linear-gradient(to right, #E46870, #5E0B15);
   padding: 4px; 
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.member .message {
-  background-image: linear-gradient(to right, #EED5BF, #FFFFFF);
-  border: 2px solid #764025;
-  color: #764025;
+  background-image: linear-gradient(to right, #E46870, #5E0B15);
+  border-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/ffe450b088819e5c1304cfe24e7d14fb275b6054/gradient%20border.svg');
+  color: #F6C4C3;
 }
 .chat-message.member .badge {
-  background-image: linear-gradient(to right, #EED5BF, #FFFFFF);
-  border: 0.5px solid #764025;
+  background-image: linear-gradient(to right, #E46870, #5E0B15);
+  border: 0.5px solid #F6C4C3;
   top: -24px;
   color: #764025;
 }
@@ -277,49 +277,6 @@ body, html {
 .chat-message.regular .badge::after {
     background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/fcfd886a9346f436c4fc66b94af4175e2bbc0756/star%20pink.svg');
     width: 12px; height: 12px; top: 50%; right: -6px;transform: translateY(-50%); z-index: 5;
-}
-
-
-/* 6. Gaya Kartu Spesial (Donasi & Subscriber) */
-/* ================================================= */
-.special-card {
-    position: relative;
-    background: #222222;
-    color: #ffffff;
-    border-radius: 8px;
-    width: 380px;
-    min-height: 40px;
-    padding: 12px;
-    text-align: center;
-    font-weight: bold;
-    box-sizing: border-box;
-}
-
-.special-badge {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
-    background: #222222;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 12px;
-    padding: 2px 12px;
-    border-radius: 4px;
-}
-
-.special-card.donation .special-badge {
-    background: #222222;
-}
-
-.special-card.new-subscriber .special-badge {
-    background: #222222
-}
-
-.special-message {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff;
 }
 
 </style>
