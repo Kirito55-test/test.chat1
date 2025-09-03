@@ -209,14 +209,18 @@ body, html {
 }
 
 /* Member */
-.chat-message.owner {
+.chat-message.member {
   background-image: linear-gradient(to bottom, #FCC8C4, #E46870);
   padding: 4px; 
   border-radius: 14px;
   margin-bottom: 10px; 
 }
 .chat-message.member .message {
-    background-image: linear-gradient(to bottom, #FCC8C4, #E46870);
+    background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/65dd3895abfa4c568c1a7afc44f412663cfcf72b/ornament-bg.svg'), 
+    linear-gradient(to bottom, #FCC8C4, #E46870);
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, center;
+    background-size: clamp(56px, 50%, 80vw) auto, cover;
     border: 1px solid #ffffff;
     color: #ffffff;
 }
