@@ -220,7 +220,6 @@ body, html {
 .chat-message.member .badge {
   background-image: linear-gradient(to right, #E46870, #5E0B15);
   border: 0.5px solid #F6C4C3;
-  top: -24px;
   color: #F6C4C3;
 }
 .chat-message.member .message::before {
@@ -421,27 +420,6 @@ body, html {
         const message = data.chatmessage; // Ambil pesan mentah
                 
         // ---- LOGIKA FINAL DENGAN PRIORITAS TETAP ----
-
-        // Prioritas #1: Apakah ini event GIFT dari TikTok?
-        if (data.event === "gift" || (data.type === 'tiktok' && data.giftName)) {
-            const giftMessage = `Mengirim ${data.repeatCount || 1}x ${data.giftName || 'Gift'}`;
-            enqueueMessage(username, giftMessage, 'donation', { style: `background-color: #FFD700; color: #000;` });
-            return; // Selesai
-        }
-        
-        // Prioritas #2: Apakah ini event DONASI (misal: Super Chat YouTube)?
-        if (data.hasDonation) {
-            enqueueMessage(username, data.hasDonation, 'donation', { style: `background-color: ${data.nameColor || '#e62117'};` });
-            return; // Selesai
-        }
-
-        // Prioritas #3: Apakah ini notifikasi NEW MEMBER?
-        if (data.event === "new-membership" || (data.membership && !data.chatmessage) || data.event === "subscribe") {
-            const welcomeMessage = data.chatmessage || data.membership || "Baru saja berlangganan!";
-            enqueueMessage(username, welcomeMessage, 'new-subscriber');
-            return; // Selesai
-        }
-
         if (data.event === true) {
             console.log("Event umum diabaikan (Follow/Share/Like):", data);
             return;
