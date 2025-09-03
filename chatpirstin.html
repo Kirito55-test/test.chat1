@@ -221,7 +221,6 @@ body, html {
     background-repeat: no-repeat, no-repeat;
     background-position: center, center;
     background-size: clamp(56px, 50%, 80vw) auto, cover;
-    border: 1px solid #ffffff;
     color: #ffffff;
 }
 .chat-message.member .badge {
@@ -240,7 +239,16 @@ body, html {
 }
 .chat-message.member .badge::before {
     background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/4a7cc5caa94e701385054171b2f5d49cf807575a/tangkai%2012x10.svg');
-  width: 16px; height: 13px; top: -6; left: -1px; z-index: 5;
+  width: 16px; height: 13px; top: -6; left: -1px;.chat-message.member {
+  background-image: url('https://raw.githubusercontent.com/Kirito55-test/test-streamelement-svg/65dd3895abfa4c568c1a7afc44f412663cfcf72b/ornament-bg.svg'), 
+  linear-gradient(to bottom, #FCC8C4, #E46870);
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center;
+  background-size: clamp(56px, 50%, 80vw) auto, cover;
+  padding: 4px; 
+  border-radius: 14px;
+  margin-bottom: 10px; 
+} z-index: 5;
   transform: rotate(-35deg);
 }
 .chat-message.member .badge::after {
